@@ -1,4 +1,4 @@
-package maff.Operators;
+package maff.operators;
 
 import maff.Population;
 

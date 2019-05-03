@@ -1,7 +1,7 @@
 package maff;
 
-import maff.ConvergenceCriterions.ConvergenceCriterion;
-import maff.Operators.Operator;
+import maff.convergence_criterions.ConvergenceCriterion;
+import maff.operators.Operator;
 
 import java.util.ArrayList;
 

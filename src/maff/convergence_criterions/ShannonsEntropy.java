@@ -1,4 +1,4 @@
-package maff.ConvergenceCriterions;
+package maff.convergence_criterions;
 
 import maff.Population;
 
