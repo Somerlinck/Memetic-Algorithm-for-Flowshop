@@ -7,7 +7,7 @@ It deals with the resolution of the permutation flowshop problem by using a Meme
     <img
       alt="Node.js"
       src="https://i.stack.imgur.com/lQs2v.gif"
-      width="400"
+      width="1000"
     />
 </p>
 
