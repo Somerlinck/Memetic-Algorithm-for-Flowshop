@@ -25,14 +25,14 @@ public abstract class PBSE {
 
     public abstract boolean hasFinished(Population population);
 
-    public Population updatePopulation(Population population) {
+    public void updatePopulation(Population population) {
         for (Operator operator : operators) population = operator.apply(population);
     }
 
     public void search() {
         population = generateInitialPopulation();
         while (!hasFinished(population)) {
-            population = updatePopulation(population);
+            updatePopulation(population);
             if (convergenceCriterion.hasConverged(population)) population = restartPopulation(population);
         }
     }
