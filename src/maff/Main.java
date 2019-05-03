@@ -30,7 +30,7 @@ public class Main {
                 return false;
             }
         };
-        pbse.search(false);
+        pbse.search();
     }
 
 }
