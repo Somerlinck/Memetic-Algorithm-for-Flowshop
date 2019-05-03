@@ -5,10 +5,11 @@ import maff.model.ListeJobs;
 import maff.model.Ordonnancement;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class LocalSearch implements Operator {
     @Override
-    public ArrayList<Solution> apply(ArrayList<Solution> solution) {
+    public TreeSet<Solution> apply(TreeSet<Solution> solution) {
         return null;
     }
     

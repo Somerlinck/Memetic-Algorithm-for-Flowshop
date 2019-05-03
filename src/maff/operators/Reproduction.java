@@ -3,10 +3,11 @@ package maff.operators;
 import maff.Solution;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class Reproduction implements Operator {
     @Override
-    public ArrayList<Solution> apply(ArrayList<Solution> solution) {
+    public TreeSet<Solution> apply(TreeSet<Solution> solution) {
         return null;
     }
 }
