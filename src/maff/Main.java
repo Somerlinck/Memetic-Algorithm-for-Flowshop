@@ -3,6 +3,8 @@ package maff;
 import maff.model.Flowshop;
 import maff.model.Ordonnancement;
 
+import java.util.ArrayList;
+
 public class Main {
 
     public static void main(String[] args) {

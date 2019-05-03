@@ -12,9 +12,9 @@ package maff.model;/*
 
 //import java.util.*; // nécessaire pour exo 2
 
-import maff.Population;
+import maff.Solution;
 
-public class Ordonnancement implements Cloneable, Population {
+public class Ordonnancement implements Cloneable, Solution {
     private ListeJobs sequence;        // ordre des jobs dans l'ordonnancement
     private int nbMachines;            // nombre de machines
     private int duree;                // duree totale
@@ -134,5 +134,11 @@ public class Ordonnancement implements Cloneable, Population {
 
     public void ordonnancer(ListeJobs l) { // ordonnance les jobs de la liste
         l.forEach(this::ordonnancerJob);
+    }
+
+
+    @Override
+    public float getScore() {
+        return getDuree();
     }
 }

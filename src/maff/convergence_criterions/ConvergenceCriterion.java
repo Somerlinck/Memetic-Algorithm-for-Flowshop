@@ -1,9 +1,11 @@
 package maff.convergence_criterions;
 
-import maff.Population;
+import maff.Solution;
+
+import java.util.ArrayList;
 
 public interface ConvergenceCriterion {
 
-    boolean hasConverged(Population population);
+    boolean hasConverged(ArrayList<Solution> solution);
 
 }

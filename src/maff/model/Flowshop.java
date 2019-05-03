@@ -10,11 +10,14 @@ package maff.model;/*
  * Auteur : Chams LAHLOU
  */
 
+import maff.Problem;
+import maff.Solution;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Flowshop {
+public class Flowshop implements Problem {
     private int nbJobs;        // nombre de jobs
     private int nbMachines;    // nombre de machines
     private Job[] jobs;        // tableau des jobs
@@ -259,4 +262,9 @@ public class Flowshop {
         meilleurOrdonnancement.afficher();
     }
 
+    // TODO implement me
+    @Override
+    public Solution generateRandomSolution() {
+        return null;
+    }
 }

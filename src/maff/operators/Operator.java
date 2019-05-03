@@ -1,9 +1,11 @@
 package maff.operators;
 
-import maff.Population;
+import maff.Solution;
+
+import java.util.ArrayList;
 
 public interface Operator {
 
-    Population apply(Population population);
+    ArrayList<Solution> apply(ArrayList<Solution> solution);
 
 }
