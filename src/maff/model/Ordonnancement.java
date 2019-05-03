@@ -62,6 +62,10 @@ public class Ordonnancement implements Cloneable, Solution {
         calculerDuree();
         return duree;
     }
+    
+    public int getNbMachines() {
+    	return this.nbMachines;
+    }
 
     public ListeJobs getSequence() {
         return sequence;
