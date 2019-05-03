@@ -1,22 +1,36 @@
 package maff;
 
+import maff.convergence_criterions.ShannonsEntropy;
 import maff.model.Flowshop;
-import maff.model.Ordonnancement;
+import maff.operators.LocalSearch;
+import maff.operators.Mutation;
+import maff.operators.Reproduction;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Test du NEH :");
-        Flowshop Fs = new Flowshop("res/tai01.txt");
-        new Ordonnancement(Fs.creerListeNEH(5), 5).afficher();
+        Problem problem = new Flowshop("res/tai01.txt");
+        PBSE pbse = new PBSE(
+                problem,
+                100,
+                new LocalSearch(),
+                new ArrayList() {{
+                    add(new Reproduction());
+                    add(new LocalSearch());
+                    add(new Mutation());
+                    add(new LocalSearch());
+                }},
+                new ShannonsEntropy()) {
 
-        System.out.println();
-
-        System.out.println("Test du EvaluationSeparation :");
-        Fs = new Flowshop("res/tai01.txt");
-        Fs.EvaluationSeparation();
+            @Override
+            public boolean hasFinished(TreeSet<Solution> solution) {
+                return false;
+            }
+        };
+        pbse.search(false);
     }
 
 }
