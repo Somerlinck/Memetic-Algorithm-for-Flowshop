@@ -9,24 +9,32 @@ import java.util.TreeSet;
 
 public class LocalSearch implements Operator {
     @Override
-    public TreeSet<Solution> apply(TreeSet<Solution> solution) {
-        return null;
+    public TreeSet<Solution> apply(TreeSet<Solution> solutions) {
+    	TreeSet<Solution> neighbors = new TreeSet<Solution>();
+    	for(Solution solution : solutions ) neighbors.add(findBestNeighbor(solution));
+        return neighbors;
     }
     
     public Solution findBestNeighbor(Solution solution) {
-    	
-		return null;    	
+    	Solution best = solution;
+    	int length = ((Ordonnancement) solution).getSequence().nombreJobs();
+    	for(int i = 0 ; i < length-1 ; i++) {
+    		for(int j = i+1 ; j < length ; j++) {
+    			Solution swap = swap(i,j,solution);
+    			if(swap.getScore() < best.getScore()) best = swap;
+    		}
+    	}
+		return best;    	
     }
     
     public Solution swap(int i, int j, Solution solution) {
-    	ListeJobs jobs = solution.getSequence();
-    	Solution res = new Ordonnancement(solution.getNbMachines());
+    	Ordonnancement ordo = (Ordonnancement) solution;
+    	ListeJobs jobs = ordo.getSequence();
+    	Ordonnancement res = new Ordonnancement(ordo.getNbMachines());
     	for(int k = 0 ; k <= jobs.nombreJobs() ; k++) {
-    		switch(k) {
-    		case i :
-    		case j :
-    		case default : 
-    		}
+    		if(k==i) res.ajouterJob(jobs.getJob(j));
+    		if(k==j) res.ajouterJob(jobs.getJob(i));
+    		else res.ajouterJob(jobs.getJob(k));
     	}
     	return res;
     }
