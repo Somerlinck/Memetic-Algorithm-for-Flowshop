@@ -23,7 +23,7 @@ public class Flowshop implements Problem {
     private Job[] jobs;        // tableau des jobs
 
     public static void main(String[] args) {
-        ListeJobs l = new ListeJobs();
+        JobsList l = new JobsList();
         l.ajouterJob(new Job(0, new int[]{1, 2, 3}));
         l.ajouterJob(new Job(1, new int[]{4, 5, 6}));
         l.ajouterJob(new Job(2, new int[]{0, 1, 2}));
@@ -98,8 +98,8 @@ public class Flowshop implements Problem {
     }
 
     // crée une liste correspondant au tableau des jobs
-    public ListeJobs creerListeJobs() {
-        ListeJobs l = new ListeJobs();
+    public JobsList creerListeJobs() {
+        JobsList l = new JobsList();
         for (int i = 0; i < nbJobs; i++) {
             l.ajouterJob(jobs[i].clone());
         }
@@ -110,23 +110,23 @@ public class Flowshop implements Problem {
      / exo 5
      /************************************************/
 
-    public ListeJobs creerListeNEH(int m) { // renvoie une liste selon l'ordre NEH
-        ListeJobs res = new ListeJobs();
+    public JobsList creerListeNEH(int m) { // renvoie une liste selon l'ordre NEH
+        JobsList res = new JobsList();
         for (Job job : jobs) res.ajouterJob(job);
         res.trierDureesDecroissantes();
 
-        ListeJobs partielle = new ListeJobs();
+        JobsList partielle = new JobsList();
         partielle.ajouterJob(res.pop(0));
 
         int size = res.nombreJobs();
         for (int i = 0; i < size; i++) {
             Job job = res.pop(0);
-            ListeJobs best = partielle.clone();
+            JobsList best = partielle.clone();
             best.ajouterJob(job, 0);
             for (int j = 0; j < i + 1; j++) {
-                ListeJobs test = partielle.clone();
+                JobsList test = partielle.clone();
                 test.ajouterJob(job, j + 1);
-                if (new Ordonnancement(test, m).getDuree() < new Ordonnancement(best, m).getDuree()) best = test;
+                if (new Scheduling(test, m).getDuree() < new Scheduling(best, m).getDuree()) best = test;
             }
             partielle = best;
         }
@@ -161,13 +161,13 @@ public class Flowshop implements Problem {
         return sum;
     }
 
-    public int calculerBorneInf(ListeJobs lJobs) {
+    public int calculerBorneInf(JobsList lJobs) {
         int max = calculerBorneInf(0, lJobs);
         for (int k = 1; k < nbMachines; k++) max = Math.max(calculerBorneInf(k, lJobs), max);
         return max;
     }
 
-    public int calculerBorneInf(int k, ListeJobs lJobs) {
+    public int calculerBorneInf(int k, JobsList lJobs) {
         int res = 0;
 
         int min = Integer.MAX_VALUE;
@@ -186,7 +186,7 @@ public class Flowshop implements Problem {
      /************************************************/
 
     // calcul de r_kj tenant compte d'un ordo en cours
-    public int calculerDateDispo(Ordonnancement o, int k, int j) {
+    public int calculerDateDispo(Scheduling o, int k, int j) {
         if (k == 0) return o.getDateDisponibilite(0);
         int pred = calculerDateDispo(o, k - 1, j) + getJob(j).getDureeOperation(k - 1);
         return Math.max(o.getDateDisponibilite(k), pred);
@@ -194,19 +194,19 @@ public class Flowshop implements Problem {
 
     // calcul de la somme des durées des opérations d'une liste
     // exécutées sur la machine k
-    public int calculerDureeJobs(int k, ListeJobs l) {
+    public int calculerDureeJobs(int k, JobsList l) {
         int sum = 0;
         for (Job job : l) sum += job.getDureeOperation(k);
         return sum;
     }
 
-    public int calculerBorneInf(Ordonnancement o, ListeJobs lJobs) {
+    public int calculerBorneInf(Scheduling o, JobsList lJobs) {
         int max = calculerBorneInf(o, 0, lJobs);
         for (int k = 1; k < nbMachines; k++) max = Math.max(calculerBorneInf(o, k, lJobs), max);
         return max;
     }
 
-    public int calculerBorneInf(Ordonnancement o, int k, ListeJobs lJobs) {
+    public int calculerBorneInf(Scheduling o, int k, JobsList lJobs) {
         int res = 0;
 
         int min = Integer.MAX_VALUE;
@@ -227,20 +227,20 @@ public class Flowshop implements Problem {
     public void EvaluationSeparation() {
         int compteur = 0;
         int cmax = Integer.MAX_VALUE;
-        Ordonnancement meilleurOrdonnancement = null;
+        Scheduling meilleurOrdonnancement = null;
 
-        FilePrioriteSommets fp = new FilePrioriteSommets();
+        NodesPriorityQueue fp = new NodesPriorityQueue();
         int bInf = calculerBorneInf(creerListeJobs());
         System.out.println("LB : " + bInf);
-        fp.ajouterSommet(new Sommet(new Ordonnancement(nbMachines), creerListeJobs(), bInf, compteur++));
+        fp.ajouterSommet(new Node(new Scheduling(nbMachines), creerListeJobs(), bInf, compteur++));
 
         while (!fp.estVide()) {
-            Sommet s = fp.recupererTete();
+            Node s = fp.recupererTete();
             for (Job nonPlace : s.getNonPlaces()) {
-                Ordonnancement o = s.getOrdonnancement().clone();
+                Scheduling o = s.getOrdonnancement().clone();
                 o.ordonnancerJob(nonPlace);
 
-                ListeJobs nonPlaces = new ListeJobs();
+                JobsList nonPlaces = new JobsList();
                 for (Job nonPlace2 : s.getNonPlaces()) {
                     if (nonPlace2.equals(nonPlace)) continue;
                     nonPlaces.ajouterJob(nonPlace2);
@@ -254,7 +254,7 @@ public class Flowshop implements Problem {
                     }
                 } else {
                     bInf = calculerBorneInf(o, nonPlaces);
-                    if (bInf < cmax) fp.ajouterSommet(new Sommet(o, nonPlaces, bInf, compteur++));
+                    if (bInf < cmax) fp.ajouterSommet(new Node(o, nonPlaces, bInf, compteur++));
                 }
             }
         }

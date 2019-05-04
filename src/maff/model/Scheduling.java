@@ -14,30 +14,30 @@ package maff.model;/*
 
 import maff.Solution;
 
-public class Ordonnancement implements Cloneable, Solution {
-    private ListeJobs sequence;        // ordre des jobs dans l'ordonnancement
+public class Scheduling implements Cloneable, Solution {
+    private JobsList sequence;        // ordre des jobs dans l'ordonnancement
     private int nbMachines;            // nombre de machines
     private int duree;                // duree totale
     private int[] dateDisponibilite;// date de disponibilite sur chaque machine
 
     public static void main(String[] args) {
-        ListeJobs l = new ListeJobs();
+        JobsList l = new JobsList();
         l.ajouterJob(new Job(0, new int[]{1, 2, 3}));
         l.ajouterJob(new Job(1, new int[]{1, 2, 3}));
         l.ajouterJob(new Job(2, new int[]{1, 3, 3}));
-        new Ordonnancement(l, 3).afficher();
+        new Scheduling(l, 3).afficher();
     }
 
     // constructeur par défaut
-    public Ordonnancement() {
-        sequence = new ListeJobs();
+    public Scheduling() {
+        sequence = new JobsList();
         nbMachines = 0;
         dateDisponibilite = new int[0];
     }
 
     // crée un ordonnancement vierge sur m machines
-    public Ordonnancement(int m) {
-        sequence = new ListeJobs();
+    public Scheduling(int m) {
+        sequence = new JobsList();
         nbMachines = m;
         dateDisponibilite = new int[nbMachines];
         for (int i = 0; i < nbMachines; i++) {
@@ -51,8 +51,8 @@ public class Ordonnancement implements Cloneable, Solution {
 
     // crée un ordonnancement à partir d'une liste de jobs sur m machines
     // les jobs sont exécutés dans l'ordre de la liste
-    public Ordonnancement(ListeJobs l, int m) {
-        sequence = new ListeJobs();
+    public Scheduling(JobsList l, int m) {
+        sequence = new JobsList();
         nbMachines = m;
         dateDisponibilite = new int[nbMachines];
         ordonnancer(l);
@@ -67,7 +67,7 @@ public class Ordonnancement implements Cloneable, Solution {
     	return this.nbMachines;
     }
 
-    public ListeJobs getSequence() {
+    public JobsList getSequence() {
         return sequence;
     }
 
@@ -97,10 +97,10 @@ public class Ordonnancement implements Cloneable, Solution {
         System.out.println("Cmax = " + getDuree());
     }
 
-    public Ordonnancement clone() {
-        Ordonnancement o = null;
+    public Scheduling clone() {
+        Scheduling o = null;
         try {
-            o = (Ordonnancement) super.clone();
+            o = (Scheduling) super.clone();
         } catch (CloneNotSupportedException cnse) {
             cnse.printStackTrace(System.err);
         }
@@ -136,7 +136,7 @@ public class Ordonnancement implements Cloneable, Solution {
      / exo 3
      /************************************************/
 
-    public void ordonnancer(ListeJobs l) { // ordonnance les jobs de la liste
+    public void ordonnancer(JobsList l) { // ordonnance les jobs de la liste
         l.forEach(this::ordonnancerJob);
     }
 
