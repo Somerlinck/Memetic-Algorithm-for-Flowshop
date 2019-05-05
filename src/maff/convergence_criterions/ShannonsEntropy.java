@@ -1,8 +1,7 @@
 package maff.convergence_criterions;
 
-import maff.Solution;
+import maff.model.Solution;
 
-import java.util.ArrayList;
 import java.util.TreeSet;
 
 public class ShannonsEntropy implements ConvergenceCriterion {

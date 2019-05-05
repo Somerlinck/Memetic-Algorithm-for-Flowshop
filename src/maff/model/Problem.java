@@ -1,5 +1,5 @@
 package maff.model;/*
- * Nom de classe : Flowshop
+ * Nom de classe : Problem
  *
  * Description :
  *
@@ -10,14 +10,11 @@ package maff.model;/*
  * Auteur : Chams LAHLOU
  */
 
-import maff.Problem;
-import maff.Solution;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Flowshop implements Problem {
+public class Problem {
     private int nbJobs;        // nombre de jobs
     private int nbMachines;    // nombre de machines
     private Job[] jobs;        // tableau des jobs
@@ -32,14 +29,14 @@ public class Flowshop implements Problem {
     }
 
     // constructeur par défaut
-    public Flowshop() {
+    public Problem() {
         nbJobs = 0;
         nbMachines = 0;
         jobs = null;
     }
 
     // crée un problème à m machines à partir d'un tableau de jobs
-    public Flowshop(Job[] t, int m) {
+    public Problem(Job[] t, int m) {
         nbMachines = m;
         nbJobs = t.length;
         jobs = new Job[nbJobs]; // on réserve la place pour les jobs
@@ -49,7 +46,7 @@ public class Flowshop implements Problem {
     }
 
     // crée un problème à partir d'un fichier
-    public Flowshop(String s) {
+    public Problem(String s) {
         try {
             Scanner scanner = new Scanner(new FileReader(s));
 
@@ -126,7 +123,7 @@ public class Flowshop implements Problem {
             for (int j = 0; j < i + 1; j++) {
                 ListeJobs test = partielle.clone();
                 test.ajouterJob(job, j + 1);
-                if (new Ordonnancement(test, m).getDuree() < new Ordonnancement(best, m).getDuree()) best = test;
+                if (new Solution(test, m).getDuree() < new Solution(best, m).getDuree()) best = test;
             }
             partielle = best;
         }
@@ -186,7 +183,7 @@ public class Flowshop implements Problem {
      /************************************************/
 
     // calcul de r_kj tenant compte d'un ordo en cours
-    public int calculerDateDispo(Ordonnancement o, int k, int j) {
+    public int calculerDateDispo(Solution o, int k, int j) {
         if (k == 0) return o.getDateDisponibilite(0);
         int pred = calculerDateDispo(o, k - 1, j) + getJob(j).getDureeOperation(k - 1);
         return Math.max(o.getDateDisponibilite(k), pred);
@@ -200,13 +197,13 @@ public class Flowshop implements Problem {
         return sum;
     }
 
-    public int calculerBorneInf(Ordonnancement o, ListeJobs lJobs) {
+    public int calculerBorneInf(Solution o, ListeJobs lJobs) {
         int max = calculerBorneInf(o, 0, lJobs);
         for (int k = 1; k < nbMachines; k++) max = Math.max(calculerBorneInf(o, k, lJobs), max);
         return max;
     }
 
-    public int calculerBorneInf(Ordonnancement o, int k, ListeJobs lJobs) {
+    public int calculerBorneInf(Solution o, int k, ListeJobs lJobs) {
         int res = 0;
 
         int min = Integer.MAX_VALUE;
@@ -227,17 +224,17 @@ public class Flowshop implements Problem {
     public void EvaluationSeparation() {
         int compteur = 0;
         int cmax = Integer.MAX_VALUE;
-        Ordonnancement meilleurOrdonnancement = null;
+        Solution meilleurOrdonnancement = null;
 
         FilePrioriteSommets fp = new FilePrioriteSommets();
         int bInf = calculerBorneInf(creerListeJobs());
         System.out.println("LB : " + bInf);
-        fp.ajouterSommet(new Sommet(new Ordonnancement(nbMachines), creerListeJobs(), bInf, compteur++));
+        fp.ajouterSommet(new Sommet(new Solution(nbMachines), creerListeJobs(), bInf, compteur++));
 
         while (!fp.estVide()) {
             Sommet s = fp.recupererTete();
             for (Job nonPlace : s.getNonPlaces()) {
-                Ordonnancement o = s.getOrdonnancement().clone();
+                Solution o = s.getOrdonnancement().clone();
                 o.ordonnancerJob(nonPlace);
 
                 ListeJobs nonPlaces = new ListeJobs();
@@ -262,9 +259,8 @@ public class Flowshop implements Problem {
         meilleurOrdonnancement.afficher();
     }
 
-    // TODO implement me
-    @Override
     public Solution generateRandomSolution() {
         return null;
     }
+
 }

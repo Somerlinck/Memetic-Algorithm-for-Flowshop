@@ -1,9 +1,11 @@
 package maff;
 
 import maff.convergence_criterions.ShannonsEntropy;
-import maff.model.Flowshop;
+import maff.model.Problem;
+import maff.model.Solution;
 import maff.operators.LocalSearch;
 import maff.operators.Mutation;
+import maff.operators.Operator;
 import maff.operators.Reproduction;
 
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ import java.util.TreeSet;
 public class Main {
 
     public static void main(String[] args) {
-        Problem problem = new Flowshop("res/tai01.txt");
+        Problem problem = new Problem("res/tai01.txt");
         PBSE pbse = new PBSE(
                 problem,
                 100,

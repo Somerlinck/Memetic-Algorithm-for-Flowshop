@@ -1,8 +1,7 @@
 package maff.operators;
 
-import maff.Solution;
+import maff.model.Solution;
 
-import java.util.ArrayList;
 import java.util.TreeSet;
 
 public interface Operator {

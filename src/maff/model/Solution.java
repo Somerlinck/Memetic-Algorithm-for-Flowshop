@@ -1,5 +1,5 @@
 package maff.model;/*
- * Nom de classe : Ordonnancement
+ * Nom de classe : Solution
  *
  * Description :
  *
@@ -12,9 +12,7 @@ package maff.model;/*
 
 //import java.util.*; // nécessaire pour exo 2
 
-import maff.Solution;
-
-public class Ordonnancement implements Cloneable, Solution {
+public class Solution implements Cloneable {
     private ListeJobs sequence;        // ordre des jobs dans l'ordonnancement
     private int nbMachines;            // nombre de machines
     private int duree;                // duree totale
@@ -25,18 +23,18 @@ public class Ordonnancement implements Cloneable, Solution {
         l.ajouterJob(new Job(0, new int[]{1, 2, 3}));
         l.ajouterJob(new Job(1, new int[]{1, 2, 3}));
         l.ajouterJob(new Job(2, new int[]{1, 3, 3}));
-        new Ordonnancement(l, 3).afficher();
+        new Solution(l, 3).afficher();
     }
 
     // constructeur par défaut
-    public Ordonnancement() {
+    public Solution() {
         sequence = new ListeJobs();
         nbMachines = 0;
         dateDisponibilite = new int[0];
     }
 
     // crée un ordonnancement vierge sur m machines
-    public Ordonnancement(int m) {
+    public Solution(int m) {
         sequence = new ListeJobs();
         nbMachines = m;
         dateDisponibilite = new int[nbMachines];
@@ -51,7 +49,7 @@ public class Ordonnancement implements Cloneable, Solution {
 
     // crée un ordonnancement à partir d'une liste de jobs sur m machines
     // les jobs sont exécutés dans l'ordre de la liste
-    public Ordonnancement(ListeJobs l, int m) {
+    public Solution(ListeJobs l, int m) {
         sequence = new ListeJobs();
         nbMachines = m;
         dateDisponibilite = new int[nbMachines];
@@ -93,10 +91,10 @@ public class Ordonnancement implements Cloneable, Solution {
         System.out.println("Cmax = " + getDuree());
     }
 
-    public Ordonnancement clone() {
-        Ordonnancement o = null;
+    public Solution clone() {
+        Solution o = null;
         try {
-            o = (Ordonnancement) super.clone();
+            o = (Solution) super.clone();
         } catch (CloneNotSupportedException cnse) {
             cnse.printStackTrace(System.err);
         }
@@ -136,8 +134,6 @@ public class Ordonnancement implements Cloneable, Solution {
         l.forEach(this::ordonnancerJob);
     }
 
-
-    @Override
     public float getScore() {
         return getDuree();
     }

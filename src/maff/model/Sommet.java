@@ -12,28 +12,28 @@ package maff.model;/*
 
 public class Sommet implements Comparable<Sommet> {
 
-    private Ordonnancement ordo; // ordonnancement en cours
+    private Solution ordo; // ordonnancement en cours
     private ListeJobs nonPlaces; // liste des jobs non placés
     private int bInf; // borne inf
     private int numero; // identificateur
 
     // constructeur par défaut
     public Sommet() {
-        ordo = new Ordonnancement();
+        ordo = new Solution();
         nonPlaces = new ListeJobs();
         bInf = Integer.MIN_VALUE;
         numero = 0;
     }
 
     // construction "normale"
-    public Sommet(Ordonnancement o, ListeJobs l, int b, int n) {
+    public Sommet(Solution o, ListeJobs l, int b, int n) {
         ordo = o.clone();
         nonPlaces = l.clone();
         bInf = b;
         numero = n;
     }
 
-    public Ordonnancement getOrdonnancement() {
+    public Solution getOrdonnancement() {
         return ordo;
     }
 

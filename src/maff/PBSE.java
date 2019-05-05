@@ -1,6 +1,8 @@
 package maff;
 
 import maff.convergence_criterions.ConvergenceCriterion;
+import maff.model.Problem;
+import maff.model.Solution;
 import maff.operators.Operator;
 
 import java.util.ArrayList;
@@ -51,29 +53,29 @@ public abstract class PBSE {
         System.out.println(best);
     }
 
-    public void generateInitialPopulation() {
+    private void generateInitialPopulation() {
         population = new TreeSet<>();
         for (int i = 0; i < populationSize; i++) population.add(problem.generateRandomSolution());
         population = populationGenerator.apply(population);
     }
 
-    public void updatePopulation(TreeSet<Solution> solution) {
+    private void updatePopulation(TreeSet<Solution> solution) {
         for (Operator operator : operators) solution = operator.apply(solution);
     }
 
     // TODO implement me
-    public void restartPopulation(TreeSet<Solution> population) {
+    private void restartPopulation(TreeSet<Solution> population) {
         if (true) this.population = commaStrategy(population);
         else this.population = plusStrategy(population);
     }
 
     // TODO implement me
-    public TreeSet<Solution> commaStrategy(TreeSet<Solution> population) {
+    private TreeSet<Solution> commaStrategy(TreeSet<Solution> population) {
         return null;
     }
 
     // TODO implement me
-    public TreeSet<Solution> plusStrategy(TreeSet<Solution> population) {
+    private TreeSet<Solution> plusStrategy(TreeSet<Solution> population) {
         return null;
     }
 
