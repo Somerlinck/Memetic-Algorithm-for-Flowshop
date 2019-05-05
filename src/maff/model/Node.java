@@ -10,23 +10,23 @@ package maff.model;/*
  * Auteur : Chams LAHLOU
  */
 
-public class Sommet implements Comparable<Sommet> {
+public class Node implements Comparable<Node> {
 
     private Solution ordo; // ordonnancement en cours
-    private ListeJobs nonPlaces; // liste des jobs non placés
+    private JobsList nonPlaces; // liste des jobs non placés
     private int bInf; // borne inf
     private int numero; // identificateur
 
     // constructeur par défaut
-    public Sommet() {
+    public Node() {
         ordo = new Solution();
-        nonPlaces = new ListeJobs();
+        nonPlaces = new JobsList();²
         bInf = Integer.MIN_VALUE;
         numero = 0;
     }
 
     // construction "normale"
-    public Sommet(Solution o, ListeJobs l, int b, int n) {
+    public Node(Solution o, JobsList l, int b, int n) {
         ordo = o.clone();
         nonPlaces = l.clone();
         bInf = b;
@@ -37,7 +37,7 @@ public class Sommet implements Comparable<Sommet> {
         return ordo;
     }
 
-    public ListeJobs getNonPlaces() {
+    public JobsList getNonPlaces() {
         return nonPlaces;
     }
 
@@ -57,7 +57,7 @@ public class Sommet implements Comparable<Sommet> {
         System.out.println("Borne inf = " + bInf);
     }
 
-    public int compareTo(Sommet obj) {
+    public int compareTo(Node obj) {
         int nombre1 = obj.getBorneInf();
         int nombre2 = bInf;
         if (nombre1 > nombre2) {

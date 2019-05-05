@@ -12,11 +12,11 @@ package maff.model;/*
 
 import java.util.*; // nécessaire pour exo 2
 
-public class ListeJobs implements Cloneable, Iterable<Job> {
+public class JobsList implements Cloneable, Iterable<Job> {
     private List<Job> liste; 				// liste des éléments
     
     // constructeur par défaut
-    public ListeJobs() { 
+    public JobsList() { 
     	liste = new ArrayList<Job>(); 		// liste vide
     }
     
@@ -73,10 +73,10 @@ public class ListeJobs implements Cloneable, Iterable<Job> {
     }
     
     // pour créer une copie
-    public ListeJobs clone() {
-    	ListeJobs l = null;
+    public JobsList clone() {
+    	JobsList l = null;
     	try {
-    		l = (ListeJobs) super.clone();
+    		l = (JobsList) super.clone();
     	} 
     	catch(CloneNotSupportedException cnse) {
     		cnse.printStackTrace(System.err);

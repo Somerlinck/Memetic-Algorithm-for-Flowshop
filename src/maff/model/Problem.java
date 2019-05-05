@@ -20,7 +20,7 @@ public class Problem {
     private Job[] jobs;        // tableau des jobs
 
     public static void main(String[] args) {
-        ListeJobs l = new ListeJobs();
+        JobsList l = new JobsList();
         l.ajouterJob(new Job(0, new int[]{1, 2, 3}));
         l.ajouterJob(new Job(1, new int[]{4, 5, 6}));
         l.ajouterJob(new Job(2, new int[]{0, 1, 2}));
@@ -95,8 +95,8 @@ public class Problem {
     }
 
     // crée une liste correspondant au tableau des jobs
-    public ListeJobs creerListeJobs() {
-        ListeJobs l = new ListeJobs();
+    public JobsList creerListeJobs() {
+        JobsList l = new JobsList();
         for (int i = 0; i < nbJobs; i++) {
             l.ajouterJob(jobs[i].clone());
         }
@@ -107,21 +107,21 @@ public class Problem {
      / exo 5
      /************************************************/
 
-    public ListeJobs creerListeNEH(int m) { // renvoie une liste selon l'ordre NEH
-        ListeJobs res = new ListeJobs();
+    public JobsList creerListeNEH(int m) { // renvoie une liste selon l'ordre NEH
+        JobsList res = new JobsList();
         for (Job job : jobs) res.ajouterJob(job);
         res.trierDureesDecroissantes();
 
-        ListeJobs partielle = new ListeJobs();
+        JobsList partielle = new JobsList();
         partielle.ajouterJob(res.pop(0));
 
         int size = res.nombreJobs();
         for (int i = 0; i < size; i++) {
             Job job = res.pop(0);
-            ListeJobs best = partielle.clone();
+            JobsList best = partielle.clone();
             best.ajouterJob(job, 0);
             for (int j = 0; j < i + 1; j++) {
-                ListeJobs test = partielle.clone();
+                JobsList test = partielle.clone();
                 test.ajouterJob(job, j + 1);
                 if (new Solution(test, m).getDuree() < new Solution(best, m).getDuree()) best = test;
             }
@@ -158,13 +158,13 @@ public class Problem {
         return sum;
     }
 
-    public int calculerBorneInf(ListeJobs lJobs) {
+    public int calculerBorneInf(JobsList lJobs) {
         int max = calculerBorneInf(0, lJobs);
         for (int k = 1; k < nbMachines; k++) max = Math.max(calculerBorneInf(k, lJobs), max);
         return max;
     }
 
-    public int calculerBorneInf(int k, ListeJobs lJobs) {
+    public int calculerBorneInf(int k, JobsList lJobs) {
         int res = 0;
 
         int min = Integer.MAX_VALUE;
@@ -191,19 +191,19 @@ public class Problem {
 
     // calcul de la somme des durées des opérations d'une liste
     // exécutées sur la machine k
-    public int calculerDureeJobs(int k, ListeJobs l) {
+    public int calculerDureeJobs(int k, JobsList l) {
         int sum = 0;
         for (Job job : l) sum += job.getDureeOperation(k);
         return sum;
     }
 
-    public int calculerBorneInf(Solution o, ListeJobs lJobs) {
+    public int calculerBorneInf(Solution o, JobsList lJobs) {
         int max = calculerBorneInf(o, 0, lJobs);
         for (int k = 1; k < nbMachines; k++) max = Math.max(calculerBorneInf(o, k, lJobs), max);
         return max;
     }
 
-    public int calculerBorneInf(Solution o, int k, ListeJobs lJobs) {
+    public int calculerBorneInf(Solution o, int k, JobsList lJobs) {
         int res = 0;
 
         int min = Integer.MAX_VALUE;
@@ -226,18 +226,18 @@ public class Problem {
         int cmax = Integer.MAX_VALUE;
         Solution meilleurOrdonnancement = null;
 
-        FilePrioriteSommets fp = new FilePrioriteSommets();
+        NodesPriorityQueue fp = new NodesPriorityQueue();
         int bInf = calculerBorneInf(creerListeJobs());
         System.out.println("LB : " + bInf);
-        fp.ajouterSommet(new Sommet(new Solution(nbMachines), creerListeJobs(), bInf, compteur++));
+        fp.ajouterSommet(new Node(new Solution(nbMachines), creerListeJobs(), bInf, compteur++));
 
         while (!fp.estVide()) {
-            Sommet s = fp.recupererTete();
+            Node s = fp.recupererTete();
             for (Job nonPlace : s.getNonPlaces()) {
                 Solution o = s.getOrdonnancement().clone();
                 o.ordonnancerJob(nonPlace);
 
-                ListeJobs nonPlaces = new ListeJobs();
+                JobsList nonPlaces = new JobsList();
                 for (Job nonPlace2 : s.getNonPlaces()) {
                     if (nonPlace2.equals(nonPlace)) continue;
                     nonPlaces.ajouterJob(nonPlace2);
@@ -251,7 +251,7 @@ public class Problem {
                     }
                 } else {
                     bInf = calculerBorneInf(o, nonPlaces);
-                    if (bInf < cmax) fp.ajouterSommet(new Sommet(o, nonPlaces, bInf, compteur++));
+                    if (bInf < cmax) fp.ajouterSommet(new Node(o, nonPlaces, bInf, compteur++));
                 }
             }
         }
@@ -259,8 +259,8 @@ public class Problem {
         meilleurOrdonnancement.afficher();
     }
 
+    // TODO implement me
     public Solution generateRandomSolution() {
         return null;
     }
-
 }

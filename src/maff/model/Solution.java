@@ -13,13 +13,13 @@ package maff.model;/*
 //import java.util.*; // nécessaire pour exo 2
 
 public class Solution implements Cloneable {
-    private ListeJobs sequence;        // ordre des jobs dans l'ordonnancement
+    private JobsList sequence;        // ordre des jobs dans l'ordonnancement
     private int nbMachines;            // nombre de machines
     private int duree;                // duree totale
     private int[] dateDisponibilite;// date de disponibilite sur chaque machine
 
     public static void main(String[] args) {
-        ListeJobs l = new ListeJobs();
+        JobsList l = new JobsList();
         l.ajouterJob(new Job(0, new int[]{1, 2, 3}));
         l.ajouterJob(new Job(1, new int[]{1, 2, 3}));
         l.ajouterJob(new Job(2, new int[]{1, 3, 3}));
@@ -28,14 +28,14 @@ public class Solution implements Cloneable {
 
     // constructeur par défaut
     public Solution() {
-        sequence = new ListeJobs();
+        sequence = new JobsList();
         nbMachines = 0;
         dateDisponibilite = new int[0];
     }
 
     // crée un ordonnancement vierge sur m machines
     public Solution(int m) {
-        sequence = new ListeJobs();
+        sequence = new JobsList();
         nbMachines = m;
         dateDisponibilite = new int[nbMachines];
         for (int i = 0; i < nbMachines; i++) {
@@ -49,8 +49,8 @@ public class Solution implements Cloneable {
 
     // crée un ordonnancement à partir d'une liste de jobs sur m machines
     // les jobs sont exécutés dans l'ordre de la liste
-    public Solution(ListeJobs l, int m) {
-        sequence = new ListeJobs();
+    public Solution(JobsList l, int m) {
+        sequence = new JobsList();
         nbMachines = m;
         dateDisponibilite = new int[nbMachines];
         ordonnancer(l);
@@ -61,7 +61,7 @@ public class Solution implements Cloneable {
         return duree;
     }
 
-    public ListeJobs getSequence() {
+    public JobsList getSequence() {
         return sequence;
     }
 
@@ -130,11 +130,15 @@ public class Solution implements Cloneable {
      / exo 3
      /************************************************/
 
-    public void ordonnancer(ListeJobs l) { // ordonnance les jobs de la liste
+    public void ordonnancer(JobsList l) { // ordonnance les jobs de la liste
         l.forEach(this::ordonnancerJob);
     }
 
     public float getScore() {
         return getDuree();
+    }
+
+    public int getNbMachines() {
+        return nbMachines;
     }
 }

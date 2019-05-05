@@ -12,21 +12,21 @@ package maff.model;/*
 
 import java.util.*;
 
-public class FilePrioriteSommets implements Iterable<Sommet> {
-    private PriorityQueue<Sommet> file; // file de priorité des sommets
+public class NodesPriorityQueue implements Iterable<Node> {
+    private PriorityQueue<Node> file; // file de priorité des sommets
     
     // constructeur par défaut
-    public FilePrioriteSommets() {
-    	file = new PriorityQueue<Sommet>();
+    public NodesPriorityQueue() {
+    	file = new PriorityQueue<Node>();
     }
     
     // renvoie la tête
-    public Sommet tete() {
+    public Node tete() {
     	return file.peek();
     }
     
     // renvoie et supprime la tête
-    public Sommet recupererTete() {
+    public Node recupererTete() {
     	return file.poll();
     }
     
@@ -34,7 +34,7 @@ public class FilePrioriteSommets implements Iterable<Sommet> {
     	return file.size();
     }
     
-    public void ajouterSommet(Sommet s) {
+    public void ajouterSommet(Node s) {
     	file.add(s);
     }
     
@@ -48,8 +48,8 @@ public class FilePrioriteSommets implements Iterable<Sommet> {
     }
     
     // pour utiliser le "foreach"
-    public Iterator<Sommet> iterator() {
-        Iterator<Sommet> iSommet = file.iterator();
+    public Iterator<Node> iterator() {
+        Iterator<Node> iSommet = file.iterator();
         return iSommet;
     }
 }
