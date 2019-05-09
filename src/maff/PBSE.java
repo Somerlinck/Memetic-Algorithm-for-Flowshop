@@ -6,12 +6,10 @@ import maff.finishing_criterions.FinishingCriterion;
 import maff.finishing_criterions.IterationCount;
 import maff.model.Problem;
 import maff.model.Solution;
-import maff.operators.LocalSearch;
-import maff.operators.Mutation;
-import maff.operators.Operator;
-import maff.operators.Reproduction;
+import maff.operators.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.TreeSet;
 
 /**
@@ -35,12 +33,7 @@ public class PBSE {
                 problem,
                 100,
                 new LocalSearch(),
-                new ArrayList<>() {{
-                    add(new Reproduction());
-                    add(new LocalSearch());
-                    add(new Mutation());
-                    add(new LocalSearch());
-                }},
+                new ArrayList<>(Arrays.asList(new Operator[]{new Selection(), new Reproduction(), new LocalSearch(), new Mutation(), new LocalSearch()})),
                 new ShannonsEntropy(),
                 new IterationCount(100));
     }

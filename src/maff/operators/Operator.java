@@ -6,6 +6,6 @@ import java.util.TreeSet;
 
 public interface Operator {
 
-    TreeSet<Solution> apply(TreeSet<Solution> solution);
+    TreeSet<Solution> apply(TreeSet<Solution> population);
 
 }
