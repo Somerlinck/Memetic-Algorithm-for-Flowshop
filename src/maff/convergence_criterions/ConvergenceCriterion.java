@@ -6,6 +6,6 @@ import java.util.TreeSet;
 
 public interface ConvergenceCriterion {
 
-    boolean hasConverged(TreeSet<Solution> solution);
+    boolean hasConverged(TreeSet<Solution> population);
 
 }

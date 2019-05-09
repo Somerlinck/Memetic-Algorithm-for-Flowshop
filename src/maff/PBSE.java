@@ -20,6 +20,7 @@ import java.util.TreeSet;
 public class PBSE {
 
     private TreeSet<Solution> population;
+    private TreeSet<Solution> oldPopulation;
 
     private Problem problem;
     private int populationSize;
@@ -68,8 +69,12 @@ public class PBSE {
         System.out.println("Searching...");
 
         while (!finishingCriterion.hasFinished(population)) {
-            updatePopulation(population);
-            if (convergenceCriterion.hasConverged(population)) restartPopulation(population);
+            updatePopulation();
+            if (convergenceCriterion.hasConverged(population)) {
+                restartPopulation();
+                oldPopulation = new TreeSet<>();
+                for (Solution solution : population) oldPopulation.add(solution.clone());
+            }
         }
 
         System.out.println("Search finished!");
@@ -84,24 +89,24 @@ public class PBSE {
         population = populationGenerator.apply(population);
     }
 
-    private void updatePopulation(TreeSet<Solution> solution) {
-        for (Operator operator : operators) solution = operator.apply(solution);
+    private void updatePopulation() {
+        for (Operator operator : operators) population = operator.apply(population);
     }
 
     // TODO implement me
-    private void restartPopulation(TreeSet<Solution> population) {
-        if (true) this.population = commaStrategy(population);
-        else this.population = plusStrategy(population);
+    private void restartPopulation() {
+        if (true) commaStrategy();
+        else plusStrategy();
     }
 
-    // TODO implement me
-    private TreeSet<Solution> commaStrategy(TreeSet<Solution> population) {
-        return null;
+    private void commaStrategy() {
+
     }
 
-    // TODO implement me
-    private TreeSet<Solution> plusStrategy(TreeSet<Solution> population) {
-        return null;
+    private void plusStrategy() {
+        population.addAll(oldPopulation);
+        int size = population.size();
+        for (int i = 0; i < size; i++) population.pollLast();
     }
 
     public Solution getBestSolution() {

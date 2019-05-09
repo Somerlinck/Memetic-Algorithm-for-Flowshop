@@ -120,4 +120,12 @@ public class Job implements Comparable<Job>, Cloneable {
         duree = 0;
         for (int i = 0; i < this.nbOperations; i++) duree += getDureeOperation(i);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        if (!(o instanceof JobsList)) return false;
+        return ((Job) o).getNumero() == getNumero();
+    }
+
 }
