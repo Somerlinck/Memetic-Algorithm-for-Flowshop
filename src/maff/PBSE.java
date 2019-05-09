@@ -1,9 +1,15 @@
 package maff;
 
 import maff.convergence_criterions.ConvergenceCriterion;
+import maff.convergence_criterions.ShannonsEntropy;
+import maff.finishing_criterions.FinishingCriterion;
+import maff.finishing_criterions.IterationCount;
 import maff.model.Problem;
 import maff.model.Solution;
+import maff.operators.LocalSearch;
+import maff.operators.Mutation;
 import maff.operators.Operator;
+import maff.operators.Reproduction;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
@@ -11,7 +17,7 @@ import java.util.TreeSet;
 /**
  * Solution based search engine
  */
-public abstract class PBSE {
+public class PBSE {
 
     private TreeSet<Solution> population;
 
@@ -20,17 +26,36 @@ public abstract class PBSE {
     private Operator populationGenerator;
     private ArrayList<Operator> operators;
     private ConvergenceCriterion convergenceCriterion;
+    private FinishingCriterion finishingCriterion;
 
-    public PBSE(Problem problem, int populationSize, Operator populationGenerator, ArrayList<Operator> operators, ConvergenceCriterion convergenceCriterion) {
+
+    public PBSE(Problem problem) {
+        this(
+                problem,
+                100,
+                new LocalSearch(),
+                new ArrayList<>() {{
+                    add(new Reproduction());
+                    add(new LocalSearch());
+                    add(new Mutation());
+                    add(new LocalSearch());
+                }},
+                new ShannonsEntropy(),
+                new IterationCount(100));
+    }
+
+    public PBSE(Problem problem, int populationSize, Operator populationGenerator, ArrayList<Operator> operators) {
+        this(problem, populationSize, populationGenerator, operators, new ShannonsEntropy(), new IterationCount(100));
+    }
+
+    public PBSE(Problem problem, int populationSize, Operator populationGenerator, ArrayList<Operator> operators, ConvergenceCriterion convergenceCriterion, FinishingCriterion finishingCriterion) {
         this.problem = problem;
         this.populationSize = populationSize;
         this.populationGenerator = populationGenerator;
         this.operators = operators;
         this.convergenceCriterion = convergenceCriterion;
+        this.finishingCriterion = finishingCriterion;
     }
-
-    public abstract boolean hasFinished(TreeSet<Solution> solution);
-
 
     public void search() {
         System.out.println("Solution based search-engine initialization");
@@ -42,7 +67,7 @@ public abstract class PBSE {
         System.out.println("Solution initialized");
         System.out.println("Searching...");
 
-        while (!hasFinished(population)) {
+        while (!finishingCriterion.hasFinished(population)) {
             updatePopulation(population);
             if (convergenceCriterion.hasConverged(population)) restartPopulation(population);
         }
