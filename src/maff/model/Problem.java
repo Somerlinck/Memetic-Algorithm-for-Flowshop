@@ -254,9 +254,8 @@ public class Problem {
         meilleurOrdonnancement.afficher();
     }
 
-    // TODO implement me
     public Solution generateRandomSolution() {
-        Solution random = new Solution();
+        Solution random = new Solution(nbMachines);
         ArrayList<Job> shuffle = new ArrayList<>(Arrays.asList(jobs));
         Collections.shuffle(shuffle);
         shuffle.forEach(random::ordonnancerJob);
