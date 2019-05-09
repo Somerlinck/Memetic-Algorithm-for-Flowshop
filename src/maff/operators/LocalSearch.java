@@ -8,7 +8,9 @@ public class LocalSearch implements Operator {
     @Override
     public TreeSet<Solution> apply(TreeSet<Solution> solutions) {
     	TreeSet<Solution> neighbors = new TreeSet<>();
-    	for(Solution solution : solutions ) neighbors.add(findBestNeighbor(solution));
+    	for(Solution solution : solutions) {
+    		neighbors.add(findBestNeighbor(solution));
+    	}
         return neighbors;
     }
 
@@ -28,7 +30,7 @@ public class LocalSearch implements Operator {
     	Solution ordo = solution;
     	JobsList jobs = ordo.getSequence();
     	Solution res = new Solution(ordo.getNbMachines());
-    	for(int k = 0 ; k <= jobs.nombreJobs() ; k++) {
+    	for(int k = 0 ; k < jobs.nombreJobs() ; k++) {
     		if(k==i) res.ajouterJob(jobs.getJob(j));
     		if(k==j) res.ajouterJob(jobs.getJob(i));
     		else res.ajouterJob(jobs.getJob(k));
