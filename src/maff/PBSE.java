@@ -33,7 +33,12 @@ public class PBSE {
                 problem,
                 100,
                 new LocalSearch(),
-                new ArrayList<>(Arrays.asList(new Operator[]{new Selection(), new Reproduction(), new LocalSearch(), new Mutation(), new LocalSearch()})),
+                new ArrayList<>(Arrays.asList(
+                        new Selection(),
+                        new Reproduction(),
+                        new LocalSearch(),
+                        new Mutation(),
+                        new LocalSearch())),
                 new ShannonsEntropy(),
                 new IterationCount(100));
     }
@@ -52,14 +57,19 @@ public class PBSE {
     }
 
     public void search() {
-        System.out.println("Solution based search-engine initialization");
+        System.out.println("Population Based Search Engine initialization");
         System.out.println("Using " + operators.size() + " operators:");
-        System.out.println(operators);
-        System.out.println("Using " + convergenceCriterion + " convergence criterion");
+        System.out.println();
+        for (Operator operator : operators) System.out.println("\t -" + operator.getClass().getSimpleName());
+        System.out.println();
+        System.out.println("Using " + convergenceCriterion.getClass().getSimpleName() + " convergence criterion");
+        System.out.println("Using " + finishingCriterion.getClass().getSimpleName() + " finishing criterion");
+        System.out.println();
 
         generateInitialPopulation();
         System.out.println("Solution initialized");
         System.out.println("Searching...");
+        System.out.println();
 
         while (!finishingCriterion.hasFinished(population)) {
             updatePopulation();
@@ -72,7 +82,8 @@ public class PBSE {
 
         System.out.println("Search finished!");
         Solution best = getBestSolution();
-        System.out.println("Best solution comes with  score of " + best.getScore() + ":");
+        System.out.println("Best solution comes with a score of " + best.getScore() + ":");
+        System.out.println();
         System.out.println(best);
     }
 

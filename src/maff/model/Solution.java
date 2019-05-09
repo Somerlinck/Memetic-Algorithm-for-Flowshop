@@ -12,7 +12,7 @@ package maff.model;/*
 
 //import java.util.*; // nécessaire pour exo 2
 
-public class Solution implements Cloneable {
+public class Solution implements Cloneable, Comparable {
     private JobsList sequence;        // ordre des jobs dans l'ordonnancement
     private int nbMachines;            // nombre de machines
     private int duree;                // duree totale
@@ -140,5 +140,12 @@ public class Solution implements Cloneable {
 
     public int getNbMachines() {
         return nbMachines;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Solution other = (Solution) o;
+        if (other.getDuree() == getDuree()) return 0;
+        return other.getDuree() < getDuree() ? 1 : -1;
     }
 }
