@@ -12,21 +12,16 @@ package maff.model;/*
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Problem {
+
     private int nbJobs;        // nombre de jobs
     private int nbMachines;    // nombre de machines
     private Job[] jobs;        // tableau des jobs
-
-    public static void main(String[] args) {
-        JobsList l = new JobsList();
-        l.ajouterJob(new Job(0, new int[]{1, 2, 3}));
-        l.ajouterJob(new Job(1, new int[]{4, 5, 6}));
-        l.ajouterJob(new Job(2, new int[]{0, 1, 2}));
-        l.trierDureesDecroissantes();
-        l.afficher();
-    }
 
     // constructeur par défaut
     public Problem() {
@@ -66,7 +61,7 @@ public class Problem {
             int j = 0; // indice de l'opération
             while (scanner.hasNextInt()) {
                 d[j] = scanner.nextInt();
-                System.out.println(j + " " + d[j]);
+//                System.out.println(j + " " + d[j]);
                 if (j < nbMachines - 1) {
                     j++; // opération suivante
                 } else { // sinon on crée le job et on passe au suivant
@@ -261,6 +256,10 @@ public class Problem {
 
     // TODO implement me
     public Solution generateRandomSolution() {
-        return null;
+        Solution random = new Solution();
+        ArrayList<Job> shuffle = new ArrayList<>(Arrays.asList(jobs));
+        Collections.shuffle(shuffle);
+        shuffle.forEach(random::ordonnancerJob);
+        return random;
     }
 }
