@@ -20,7 +20,7 @@ public class Node implements Comparable<Node> {
     // constructeur par défaut
     public Node() {
         ordo = new Solution();
-        nonPlaces = new JobsList();²
+        nonPlaces = new JobsList();
         bInf = Integer.MIN_VALUE;
         numero = 0;
     }
