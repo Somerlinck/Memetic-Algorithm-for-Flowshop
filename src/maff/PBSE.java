@@ -34,7 +34,6 @@ public class PBSE {
                 100,
                 new LocalSearch(),
                 new ArrayList<>(Arrays.asList(
-                        new Selection(),
                         new Reproduction(),
                         new LocalSearch(),
                         new Mutation(),
