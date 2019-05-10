@@ -49,6 +49,10 @@ public class JobsList implements Cloneable, Iterable<Job> {
         liste.remove(i);
     }
 
+    public void vider() {
+        liste.clear();
+    }
+
     public int nombreJobs() {
         return liste.size();
     }
