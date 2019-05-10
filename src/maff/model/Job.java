@@ -124,7 +124,7 @@ public class Job implements Comparable<Job>, Cloneable {
     @Override
     public boolean equals(Object o) {
         if (o == null) return false;
-        if (!(o instanceof JobsList)) return false;
+        if (!(o instanceof Job)) return false;
         return ((Job) o).getNumero() == getNumero();
     }
 

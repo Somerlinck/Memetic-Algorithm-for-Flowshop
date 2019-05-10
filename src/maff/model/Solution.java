@@ -148,4 +148,5 @@ public class Solution implements Cloneable, Comparable {
         if (other.getDuree() == getDuree()) return 0;
         return other.getDuree() < getDuree() ? 1 : -1;
     }
+
 }
