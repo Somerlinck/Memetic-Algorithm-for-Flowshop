@@ -98,17 +98,22 @@ public class PBSE {
 
     // TODO implement me
     private void restartPopulation() {
-        if (true) commaStrategy();
+    	float criteria = this.population.size() / popSize();
+        if (Math.abs(criteria-6) <= 0.5f) commaStrategy();
         else plusStrategy();
     }
 
-    private void commaStrategy() {
+    private int popSize() {
+		// TODO Auto-generated method stub
+    	return (int)(populationSize/problem.getNbJobs());
+	}
 
+	private void commaStrategy() {
     }
 
     private void plusStrategy() {
-        population.addAll(oldPopulation);
         int size = population.size();
+        population.addAll(oldPopulation);
         for (int i = 0; i < size; i++) population.pollLast();
     }
 
