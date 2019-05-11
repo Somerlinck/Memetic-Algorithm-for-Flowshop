@@ -101,15 +101,9 @@ public class PBSE {
     // TODO implement me
     private void restartPopulation() {
     	restartCount++;
-    	float criteria = this.population.size() / popSize();
-        if (Math.abs(criteria-6) <= 0.5f) commaStrategy();
+        if (false) commaStrategy();
         else plusStrategy();
     }
-
-    private int popSize() {
-		// TODO Auto-generated method stub
-    	return (int)(populationSize/problem.getNbJobs());
-	}
 
 	private void commaStrategy() {
     }
