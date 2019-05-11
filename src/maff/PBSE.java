@@ -26,6 +26,8 @@ public class PBSE {
     private ArrayList<Operator> operators;
     private ConvergenceCriterion convergenceCriterion;
     private FinishingCriterion finishingCriterion;
+    
+    public static int restartCount = 0;
 
 
     public PBSE(Problem problem) {
@@ -98,6 +100,7 @@ public class PBSE {
 
     // TODO implement me
     private void restartPopulation() {
+    	restartCount++;
     	float criteria = this.population.size() / popSize();
         if (Math.abs(criteria-6) <= 0.5f) commaStrategy();
         else plusStrategy();
