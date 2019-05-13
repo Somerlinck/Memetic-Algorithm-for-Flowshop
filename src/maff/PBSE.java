@@ -80,9 +80,9 @@ public class PBSE {
             updatePopulation();
             if (convergenceCriterion.hasConverged(population)) {
                 System.out.println("Current best score: " + population.first().getScore());
-                restartPopulation();
                 oldPopulation = new TreeSet<>();
                 for (Solution solution : population) oldPopulation.add(solution.clone());
+                restartPopulation();
             }
         }
 
@@ -111,6 +111,7 @@ public class PBSE {
         if (false) commaStrategy();
         else plusStrategy();
         while(population.size()<populationSize) population.add(problem.generateRandomSolution());
+        population = populationGenerator.apply(population);
     }
 
 	private void commaStrategy() {
