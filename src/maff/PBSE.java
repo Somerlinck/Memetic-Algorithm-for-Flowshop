@@ -17,6 +17,10 @@ import java.util.TreeSet;
  */
 public class PBSE {
 
+    // Memo :
+    // TreeSets excludes duplicates
+    // Therefore we put new solutions in restartPopulation to match populationSize
+    // This prevents, for instance, applying the same determinist algorithm to identical solutions
     private TreeSet<Solution> population;
     private TreeSet<Solution> oldPopulation;
 
@@ -75,6 +79,7 @@ public class PBSE {
         while (!finishingCriterion.hasFinished(population)) {
             updatePopulation();
             if (convergenceCriterion.hasConverged(population)) {
+                System.out.println("Current best score: " + population.first().getScore());
                 restartPopulation();
                 oldPopulation = new TreeSet<>();
                 for (Solution solution : population) oldPopulation.add(solution.clone());
@@ -85,13 +90,15 @@ public class PBSE {
         Solution best = getBestSolution();
         System.out.println("Best solution comes with a score of " + best.getScore() + ":");
         System.out.println();
-        System.out.println(best);
+        best.afficher();
     }
 
     private void generateInitialPopulation() {
         population = new TreeSet<>();
-        for (int i = 0; i < populationSize; i++) population.add(problem.generateRandomSolution());
+        while(population.size()<populationSize) population.add(problem.generateRandomSolution());
         population = populationGenerator.apply(population);
+        oldPopulation = new TreeSet<>();
+        for (Solution solution : population) oldPopulation.add(solution.clone());
     }
 
     private void updatePopulation() {
@@ -103,6 +110,7 @@ public class PBSE {
     	restartCount++;
         if (false) commaStrategy();
         else plusStrategy();
+        while(population.size()<populationSize) population.add(problem.generateRandomSolution());
     }
 
 	private void commaStrategy() {

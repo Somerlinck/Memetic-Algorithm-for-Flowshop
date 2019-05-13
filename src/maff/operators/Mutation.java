@@ -6,7 +6,7 @@ import maff.model.Solution;
 
 import java.util.TreeSet;
 
-public class Mutation implements Operator {
+public class Mutation extends Operator {
 
     private float mutationRate;
 
@@ -19,7 +19,7 @@ public class Mutation implements Operator {
     }
 
     @Override
-    public TreeSet<Solution> apply(TreeSet<Solution> population) {
+    public TreeSet<Solution> abstractApply(TreeSet<Solution> population) {
         TreeSet<Solution> pop = new TreeSet<>();
         for (Solution solution : population) pop.add(solution.clone());
         for (Solution solution : pop) {

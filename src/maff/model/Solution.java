@@ -78,6 +78,12 @@ public class Solution implements Cloneable, Comparable {
         for (int i = 0; i < nbMachines; i++) dateDisponibilite[i] = 0; // machines disponibles à l'instant 0
     }
 
+    public void reset() {
+        initialiser();
+        ordonnancer(getSequence().clone());
+        getScore();
+    }
+
     public void afficher() { // affiche l'ordonnancement
         sequence.afficher();
         for (Job j : sequence) {
@@ -145,8 +151,8 @@ public class Solution implements Cloneable, Comparable {
     @Override
     public int compareTo(Object o) {
         Solution other = (Solution) o;
-        if (other.getDuree() == getDuree()) return 0;
-        return other.getDuree() < getDuree() ? 1 : -1;
+        if (other.getScore() == getScore()) return 0;
+        return other.getScore() < getScore() ? 1 : -1;
     }
 
 }

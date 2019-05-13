@@ -259,6 +259,7 @@ public class Problem {
         ArrayList<Job> shuffle = new ArrayList<>(Arrays.asList(jobs));
         Collections.shuffle(shuffle);
         shuffle.forEach(random::ordonnancerJob);
+        random.getScore();
         return random;
     }
 }

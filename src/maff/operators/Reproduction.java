@@ -5,11 +5,12 @@ import maff.model.Solution;
 
 import java.util.TreeSet;
 
-public class Reproduction implements Operator {
+public class Reproduction extends Operator {
 
     @Override
-    public TreeSet<Solution> apply(TreeSet<Solution> population) {
+    public TreeSet<Solution> abstractApply(TreeSet<Solution> population) {
         TreeSet<Solution> pop = new TreeSet<>();
+//        weighting(population, pop);
         random(population, pop);
         return pop;
     }
@@ -41,9 +42,12 @@ public class Reproduction implements Operator {
         Problem problem = new Problem("res/tai01.txt");
 
         TreeSet<Solution> population = new TreeSet<>();
-        for (int i = 0; i < 5; i++) population.add(problem.generateRandomSolution());
+        for (int i = 0; i < 50; i++) population.add(problem.generateRandomSolution());
 
-        for (Solution solution : population) solution.getSequence().afficher();
+        for (Solution solution : population) {
+            System.out.print(solution.getScore()+": ");
+            solution.getSequence().afficher();
+        }
         System.out.println();
 
         TreeSet<Solution> newPopulation = new TreeSet<>();

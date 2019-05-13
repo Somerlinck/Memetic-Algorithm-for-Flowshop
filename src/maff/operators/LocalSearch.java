@@ -4,9 +4,10 @@ import maff.model.Solution;
 import maff.model.JobsList;
 import java.util.TreeSet;
 
-public class LocalSearch implements Operator {
+public class LocalSearch extends Operator {
+
     @Override
-    public TreeSet<Solution> apply(TreeSet<Solution> solutions) {
+    public TreeSet<Solution> abstractApply(TreeSet<Solution> solutions) {
     	TreeSet<Solution> neighbors = new TreeSet<>();
     	for(Solution solution : solutions) {
     		neighbors.add(findBestNeighbor(solution));
