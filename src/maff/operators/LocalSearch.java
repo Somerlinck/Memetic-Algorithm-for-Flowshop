@@ -7,40 +7,44 @@ import maff.model.Problem;
 
 import java.util.TreeSet;
 public class LocalSearch extends Operator {
+	private static int step = 0;
 
     @Override
     public TreeSet<Solution> abstractApply(TreeSet<Solution> solutions) {
     	TreeSet<Solution> neighbors = new TreeSet<>();
     	for(Solution solution : solutions) {
-    		Solution best = findBestNeighbor(solution);
-    		best.reset();
-    		neighbors.add(best);
+    		Solution bestNeighbor = findBestNeighbor(solution);
+    		neighbors.add(bestNeighbor);
     	}
+    	step++;
         return neighbors;
     }
 
     private Solution findBestNeighbor(Solution solution) {
-    	Solution best = solution;
+    	Solution bestNeighbor = solution;
     	int length = solution.getSequence().nombreJobs();
+    	if(step <= 1) {
     	for(int i = 0 ; i < length-1 ; i++) {
     		for(int j = i+1 ; j < length ; j++) {
     			Solution swap = swap(i,j,solution);
-    			if(swap.getScore() < best.getScore()) {best = swap;}
+    			swap.reset();
+    			if(swap.getScore() < bestNeighbor.getScore()) {return swap;}
     		}
     	}
-		return best;
+    	}
+    	return bestNeighbor;
     }
 
     private Solution swap(int i, int j, Solution solution) {
     	JobsList jobs = solution.getSequence();
-    	Solution res = new Solution(solution.getNbMachines());
+    	Solution swap = new Solution(solution.getNbMachines());
     	for(int k = 0 ; k < jobs.nombreJobs() ; k++) {
-    		if(k==i) res.ajouterJob(jobs.getJob(j));
-    		else {if(k==j) res.ajouterJob(jobs.getJob(i));
-    		else res.ajouterJob(jobs.getJob(k));
+    		if(k==i) swap.ajouterJob(jobs.getJob(j));
+    		else {if(k==j) swap.ajouterJob(jobs.getJob(i));
+    		else swap.ajouterJob(jobs.getJob(k));
     		}
     	}
-    	return res;
+    	return swap;
     }
 
 }
