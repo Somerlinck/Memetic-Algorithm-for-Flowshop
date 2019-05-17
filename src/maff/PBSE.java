@@ -6,7 +6,10 @@ import maff.finishing_criterions.FinishingCriterion;
 import maff.finishing_criterions.IterationCount;
 import maff.model.Problem;
 import maff.model.Solution;
-import maff.operators.*;
+import maff.operators.LocalSearch;
+import maff.operators.Mutation;
+import maff.operators.Operator;
+import maff.operators.Reproduction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +33,7 @@ public class PBSE {
     private ArrayList<Operator> operators;
     private ConvergenceCriterion convergenceCriterion;
     private FinishingCriterion finishingCriterion;
-    
+
     public static int restartCount = 0;
 
 
@@ -48,11 +51,28 @@ public class PBSE {
                 new IterationCount(100));
     }
 
-    public PBSE(Problem problem, int populationSize, Operator populationGenerator, ArrayList<Operator> operators) {
-        this(problem, populationSize, populationGenerator, operators, new ShannonsEntropy(), new IterationCount(100));
+    public PBSE(
+            Problem problem,
+            int populationSize,
+            Operator populationGenerator,
+            ArrayList<Operator> operators) {
+        this(
+                problem,
+                populationSize,
+                populationGenerator,
+                operators,
+                new ShannonsEntropy(),
+                new IterationCount(100)
+        );
     }
 
-    public PBSE(Problem problem, int populationSize, Operator populationGenerator, ArrayList<Operator> operators, ConvergenceCriterion convergenceCriterion, FinishingCriterion finishingCriterion) {
+    public PBSE(
+            Problem problem,
+            int populationSize,
+            Operator populationGenerator,
+            ArrayList<Operator> operators,
+            ConvergenceCriterion convergenceCriterion,
+            FinishingCriterion finishingCriterion) {
         this.problem = problem;
         this.populationSize = populationSize;
         this.populationGenerator = populationGenerator;
@@ -95,7 +115,7 @@ public class PBSE {
 
     private void generateInitialPopulation() {
         population = new TreeSet<>();
-        while(population.size()<populationSize) population.add(problem.generateRandomSolution());
+        while (population.size() < populationSize) population.add(problem.generateRandomSolution());
         population = populationGenerator.apply(population);
         oldPopulation = new TreeSet<>();
         for (Solution solution : population) oldPopulation.add(solution.clone());
@@ -105,22 +125,21 @@ public class PBSE {
         for (Operator operator : operators) population = operator.apply(population);
     }
 
-    // TODO implement me
     private void restartPopulation() {
-    	restartCount++;
+        restartCount++;
         if (false) commaStrategy();
         else plusStrategy();
-        while(population.size()<populationSize) population.add(problem.generateRandomSolution());
+        while (population.size() < populationSize) population.add(problem.generateRandomSolution());
         population = populationGenerator.apply(population);
     }
 
-	private void commaStrategy() {
+    private void commaStrategy() {
     }
 
     private void plusStrategy() {
         int size = population.size();
         population.addAll(oldPopulation);
-        for (int i = 0; i < size; i++) population.pollLast();
+        for (int i = 0; i < size - populationSize; i++) population.pollLast();
     }
 
     public Solution getBestSolution() {

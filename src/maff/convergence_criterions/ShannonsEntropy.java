@@ -24,12 +24,18 @@ public class ShannonsEntropy implements ConvergenceCriterion {
     @Override
     public boolean hasConverged(TreeSet<Solution> population) {
         for (Solution s1 : population) {
-            if (probabilities.containsKey(s1)) {
-                float p = probabilities.get(s1);
-                probabilities.put(s1, p * (float) size / (size + 1) + 1.0f / (size + 1));
-                size++;
-                break;
-            } else probabilities.put(s1, 1.0f / ++size);
+            boolean test = true;
+            for (Solution s2 : probabilities.keySet()) {
+                if (s1.equals(s2)) {
+                    test = false;
+                    float p = probabilities.get(s2);
+                    probabilities.put(s2, p * (float) size / (size + 1) + 1.0f / (size + 1));
+                    size++;
+                    break;
+                }
+            }
+
+            if (test) probabilities.put(s1, 1.0f / ++size);
         }
 
         float entropy = 0;

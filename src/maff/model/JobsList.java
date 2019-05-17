@@ -34,10 +34,12 @@ public class JobsList implements Cloneable, Iterable<Job> {
     }
 
     public void ajouterJob(Job j) {
+//        if(liste.contains(j)) throw new Error("Job already in job list!");
         liste.add(j);
     }
 
     public void ajouterJob(Job j, int i) {        // ajoute à la position i
+//        if(liste.contains(j)) throw new Error("Job already in job list!");
         liste.add(i, j);
     }
 

@@ -10,6 +10,8 @@ public class Reproduction extends Operator {
     @Override
     public TreeSet<Solution> abstractApply(TreeSet<Solution> population) {
         TreeSet<Solution> pop = new TreeSet<>();
+        // We wan't to keep the best solution
+        pop.add(population.first());
 //        weighting(population, pop);
         random(population, pop);
         return pop;

@@ -80,7 +80,9 @@ public class Solution implements Cloneable, Comparable {
 
     public void reset() {
         initialiser();
-        ordonnancer(getSequence().clone());
+        JobsList copy = getSequence().clone();
+        sequence.vider();
+        ordonnancer(copy);
         getScore();
     }
 
@@ -153,6 +155,16 @@ public class Solution implements Cloneable, Comparable {
         Solution other = (Solution) o;
         if (other.getScore() == getScore()) return 0;
         return other.getScore() < getScore() ? 1 : -1;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o==null) return false;
+        if(!(o instanceof Solution)) return false;
+
+        Solution other = (Solution)o;
+
+        return other.getSequence().equals(getSequence());
     }
 
 }

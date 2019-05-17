@@ -22,7 +22,13 @@ public class Mutation extends Operator {
     public TreeSet<Solution> abstractApply(TreeSet<Solution> population) {
         TreeSet<Solution> pop = new TreeSet<>();
         for (Solution solution : population) pop.add(solution.clone());
+        boolean first = true;
         for (Solution solution : pop) {
+            // We don't want to alter the best solution
+            if(first) {
+                first = false;
+                continue;
+            }
             for (int i = 0; i < solution.getSequence().nombreJobs(); i++) {
                 if (Math.random() > mutationRate) continue;
                 swap(i, solution.getSequence());
