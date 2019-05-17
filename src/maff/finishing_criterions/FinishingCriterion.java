@@ -7,5 +7,6 @@ import java.util.TreeSet;
 public interface FinishingCriterion {
 
     boolean hasFinished(TreeSet<Solution> population);
+    float getProgress();
 
 }

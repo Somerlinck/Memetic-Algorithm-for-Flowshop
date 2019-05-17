@@ -4,6 +4,7 @@ import maff.convergence_criterions.ConvergenceCriterion;
 import maff.convergence_criterions.ShannonsEntropy;
 import maff.finishing_criterions.FinishingCriterion;
 import maff.finishing_criterions.IterationCount;
+import maff.finishing_criterions.RestartCount;
 import maff.model.Problem;
 import maff.model.Solution;
 import maff.operators.LocalSearch;
@@ -36,7 +37,6 @@ public class PBSE {
 
     public static int restartCount = 0;
 
-
     public PBSE(Problem problem) {
         this(
                 problem,
@@ -48,7 +48,7 @@ public class PBSE {
                         new Mutation(),
                         new LocalSearch())),
                 new ShannonsEntropy(),
-                new IterationCount(100));
+                new RestartCount(100));
     }
 
     public PBSE(
@@ -99,7 +99,6 @@ public class PBSE {
         while (!finishingCriterion.hasFinished(population)) {
             updatePopulation();
             if (convergenceCriterion.hasConverged(population)) {
-                System.out.println("Current best score: " + population.first().getScore());
                 oldPopulation = new TreeSet<>();
                 for (Solution solution : population) oldPopulation.add(solution.clone());
                 restartPopulation();
@@ -131,6 +130,8 @@ public class PBSE {
         else plusStrategy();
         while (population.size() < populationSize) population.add(problem.generateRandomSolution());
         population = populationGenerator.apply(population);
+
+        System.out.println((int) (finishingCriterion.getProgress() * 100) + "% done");
     }
 
     private void commaStrategy() {

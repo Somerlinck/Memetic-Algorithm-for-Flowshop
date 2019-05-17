@@ -159,12 +159,20 @@ public class Solution implements Cloneable, Comparable {
 
     @Override
     public boolean equals(Object o) {
-        if(o==null) return false;
-        if(!(o instanceof Solution)) return false;
+        if (o == null) return false;
+        if (!(o instanceof Solution)) return false;
 
-        Solution other = (Solution)o;
+        Solution other = (Solution) o;
 
         return other.getSequence().equals(getSequence());
+    }
+
+    @Override
+    public int hashCode() {
+        int res = 0;
+        int index = 1;
+        for (Job job : sequence) res += job.getNumero() * index++;
+        return res;
     }
 
 }

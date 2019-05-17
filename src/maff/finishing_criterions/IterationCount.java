@@ -19,4 +19,9 @@ public class IterationCount implements FinishingCriterion {
         return ++current >= max;
     }
 
+    @Override
+    public float getProgress() {
+        return (float) current / max;
+    }
+
 }

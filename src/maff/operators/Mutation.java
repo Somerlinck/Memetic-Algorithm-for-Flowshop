@@ -11,7 +11,7 @@ public class Mutation extends Operator {
     private float mutationRate;
 
     public Mutation() {
-        this(0.1f);
+        this(0.3f);
     }
 
     public Mutation(float mutationRate) {
