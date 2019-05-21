@@ -12,12 +12,10 @@ import maff.operators.Mutation;
 import maff.operators.Operator;
 import maff.operators.Reproduction;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
- * Solution based search engine
+ * Population based search engine
  */
 public class PBSE {
 
@@ -102,6 +100,7 @@ public class PBSE {
                 oldPopulation = new TreeSet<>();
                 for (Solution solution : population) oldPopulation.add(solution.clone());
                 restartPopulation();
+                System.out.println(population.first().getScore());
             }
         }
 
@@ -126,7 +125,8 @@ public class PBSE {
 
     private void restartPopulation() {
         restartCount++;
-        if (false) commaStrategy();
+        float ratio = population.size() / populationSize;
+        if (ratio <= 7 && ratio >=5) commaStrategy();
         else plusStrategy();
         while (population.size() < populationSize) population.add(problem.generateRandomSolution());
         population = populationGenerator.apply(population);

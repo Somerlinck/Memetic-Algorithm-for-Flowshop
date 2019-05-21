@@ -11,7 +11,7 @@ public class Mutation extends Operator {
     private float mutationRate;
 
     public Mutation() {
-        this(0.3f);
+        this(0.001f);
     }
 
     public Mutation(float mutationRate) {
@@ -32,6 +32,7 @@ public class Mutation extends Operator {
             for (int i = 0; i < solution.getSequence().nombreJobs(); i++) {
                 if (Math.random() > mutationRate) continue;
                 swap(i, solution.getSequence());
+//                insert(i, solution.getSequence());
             }
         }
         return pop;

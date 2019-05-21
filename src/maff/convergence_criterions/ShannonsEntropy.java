@@ -45,7 +45,7 @@ public class ShannonsEntropy implements ConvergenceCriterion {
 
         float entropy = 0;
         for (float value : probabilities.values()) {
-            entropy -= 10 * value * Math.log(value);
+            entropy -= value * Math.log(value);
         }
         if (lastEntropy == -1) {
             lastEntropy = entropy;

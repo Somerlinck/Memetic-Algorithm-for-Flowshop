@@ -216,43 +216,43 @@ public class Problem {
      /************************************************/
 
     // procédure par évaluation et séparation
-    public void EvaluationSeparation() {
-        int compteur = 0;
-        int cmax = Integer.MAX_VALUE;
-        Solution meilleurOrdonnancement = null;
-
-        NodesPriorityQueue fp = new NodesPriorityQueue();
-        int bInf = calculerBorneInf(creerListeJobs());
-        System.out.println("LB : " + bInf);
-        fp.ajouterSommet(new Node(new Solution(nbMachines), creerListeJobs(), bInf, compteur++));
-
-        while (!fp.estVide()) {
-            Node s = fp.recupererTete();
-            for (Job nonPlace : s.getNonPlaces()) {
-                Solution o = s.getOrdonnancement().clone();
-                o.ordonnancerJob(nonPlace);
-
-                JobsList nonPlaces = new JobsList();
-                for (Job nonPlace2 : s.getNonPlaces()) {
-                    if (nonPlace2.equals(nonPlace)) continue;
-                    nonPlaces.ajouterJob(nonPlace2);
-                }
-
-                if (nonPlaces.nombreJobs() == 0) {
-                    if (cmax > o.getDuree()) {
-                        cmax = o.getDuree();
-                        meilleurOrdonnancement = o;
-                        System.out.println("Nouveau cmax : " + cmax);
-                    }
-                } else {
-                    bInf = calculerBorneInf(o, nonPlaces);
-                    if (bInf < cmax) fp.ajouterSommet(new Node(o, nonPlaces, bInf, compteur++));
-                }
-            }
-        }
-
-        meilleurOrdonnancement.afficher();
-    }
+//    public void EvaluationSeparation() {
+//        int compteur = 0;
+//        int cmax = Integer.MAX_VALUE;
+//        Solution meilleurOrdonnancement = null;
+//
+//        NodesPriorityQueue fp = new NodesPriorityQueue();
+//        int bInf = calculerBorneInf(creerListeJobs());
+//        System.out.println("LB : " + bInf);
+//        fp.ajouterSommet(new Node(new Solution(nbMachines), creerListeJobs(), bInf, compteur++));
+//
+//        while (!fp.estVide()) {
+//            Node s = fp.recupererTete();
+//            for (Job nonPlace : s.getNonPlaces()) {
+//                Solution o = s.getOrdonnancement().clone();
+//                o.ordonnancerJob(nonPlace);
+//
+//                JobsList nonPlaces = new JobsList();
+//                for (Job nonPlace2 : s.getNonPlaces()) {
+//                    if (nonPlace2.equals(nonPlace)) continue;
+//                    nonPlaces.ajouterJob(nonPlace2);
+//                }
+//
+//                if (nonPlaces.nombreJobs() == 0) {
+//                    if (cmax > o.getDuree()) {
+//                        cmax = o.getDuree();
+//                        meilleurOrdonnancement = o;
+//                        System.out.println("Nouveau cmax : " + cmax);
+//                    }
+//                } else {
+//                    bInf = calculerBorneInf(o, nonPlaces);
+//                    if (bInf < cmax) fp.ajouterSommet(new Node(o, nonPlaces, bInf, compteur++));
+//                }
+//            }
+//        }
+//
+//        meilleurOrdonnancement.afficher();
+//    }
 
     public Solution generateRandomSolution() {
         Solution random = new Solution(nbMachines);
