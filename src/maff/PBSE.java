@@ -100,7 +100,6 @@ public class PBSE {
                 oldPopulation = new TreeSet<>();
                 for (Solution solution : population) oldPopulation.add(solution.clone());
                 restartPopulation();
-                System.out.println(population.first().getScore());
             }
         }
 
