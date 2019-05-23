@@ -124,7 +124,7 @@ public class PBSE {
 
     private void restartPopulation() {
         restartCount++;
-        float ratio = population.size() / populationSize;
+        float ratio = populationSize / population.size();
         if (ratio <= 7 && ratio >=5) commaStrategy();
         else plusStrategy();
         while (population.size() < populationSize) population.add(problem.generateRandomSolution());
